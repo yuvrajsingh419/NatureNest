@@ -28,6 +28,10 @@ const userRoutes = require('./routes/users')
 const campgroundRoutes  = require('./routes/campground');
 const reviewRoutes = require('./routes/review');
 const review = require('./models/review');
+const { isLoggedIn } = require('./middleware.js');
+
+const stripe = require('stripe')('sk_test_51Njw6nSAF0QiCviy6gSSYtOUYQkAzKXBwlpl60dEcCGJOgvghafRbfC923ryts0T5Y5gu8veEdc8PMSrMuLr3wpd00RM4PYigJ');
+
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
 
@@ -97,8 +101,32 @@ app.use('/campgrounds/:id/reviews',reviewRoutes)
 app.get('/',(req,res)=>{
     res.render('home')
 });
+app.get('/pay',isLoggedIn, (req, res) => {
+    // Handle the payment logic here
+    res.render('pay');
+});
 
+app.post('/create-checkout-session', async (req, res) => {
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+            price_data: {
+                currency: 'inr',
+                product_data: {
+                    name: 'Buddy Finder',
+                },
+                unit_amount: 99, // Amount in cents
+            },
+            quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: 'http://localhost:5000/campgrounds',
+        cancel_url: 'http://localhost:5000/cancel',
+    });
 
+    res.json({ id: session.id });
+    // res.render('campgrounds')
+});
 
 
 app.all('*',(req,res, next)=>{
@@ -113,6 +141,6 @@ app.use((err,req,res,next)=>{
 })
 
 
-app.listen(4000,()=>{
-    console.log("Serving on port 4000")
+app.listen(5000,()=>{
+    console.log("Serving on port 5000")
 })

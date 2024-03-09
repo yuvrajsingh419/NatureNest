@@ -38,8 +38,8 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item text-muted"><%= campground.location %> </li>
               <li class="list-group-item ">Submitted by <%= campground.author.username %> </li>
-              <li class="list-group-item">Rs<%= campground.price %>/night </li>
-              <li class="list-group-item">Campgrounds</li>
+              <li class="list-group-item">+91 <%= campground.price %> </li>
+              <!-- <li class="list-group-item">Campgrounds</li> -->
             </ul>
             <% if(currentUser&& campground.author.equals(currentUser._id)){ %> 
             <div class="card-body">
@@ -50,7 +50,7 @@
             </div>
             <% } %> 
             <div class="card-footer text-muted">
-                2 days ago
+                <!-- 2 days ago -->
             </div>
           </div>
 
