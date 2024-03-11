@@ -30,7 +30,7 @@ const reviewRoutes = require('./routes/review');
 const review = require('./models/review');
 const { isLoggedIn } = require('./middleware.js');
 
-const stripe = require('stripe') ('sk_test_51Njw6nSAF0QiCviy6gSSYtOUYQkAzKXBwlpl60dEcCGJOgvghafRbfC923ryts0T5Y5gu8veEdc8PMSrMuLr3wpd00RM4PYigJ');
+const stripe = require('stripe')('sk_test_51Njw6nSAF0QiCviy6gSSYtOUYQkAzKXBwlpl60dEcCGJOgvghafRbfC923ryts0T5Y5gu8veEdc8PMSrMuLr3wpd00RM4PYigJ');
 
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
@@ -106,27 +106,54 @@ app.get('/pay',isLoggedIn, (req, res) => {
     res.render('pay');
 });
 
-app.post('/create-checkout-session', async (req, res) => {
-    const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [{
-            price_data: {
-                currency: 'inr',
-                product_data: {
-                    name: 'Buddy Finder',
-                },
-                unit_amount: 99, // Amount in cents
-            },
-            quantity: 1,
-        }],
-        mode: 'payment',
-        success_url: 'http://localhost:5000/campgrounds',
-        cancel_url: 'http://localhost:5000/cancel',
-    });
 
-    res.json({ id: session.id });
-    // res.render('campgrounds')
+
+// app.post('/create-checkout-session', async (req, res) => {
+//     const session = await stripe.checkout.sessions.create({
+//         payment_method_types: ['card'],
+//         line_items: [{
+//             price_data: {
+//                 currency: 'inr',
+//                 product_data: {
+//                     name: 'Buddy Finder',
+//                 },
+//                 unit_amount: 99, // Amount in cents
+//             },
+//             quantity: 1,
+//         }],
+//         mode: 'payment',
+//         success_url: 'http://localhost:5000/campgrounds',
+//         cancel_url: 'http://localhost:5000/cancel',
+//     });
+
+//     res.json({ id: session.id });
+//     // res.render('campgrounds')
+// });
+
+app.post('/webhook', async (req, res) => {
+    const payload = req.body;
+
+    // Verify the signature
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    if (event.type === 'checkout.session.completed') {
+        // Payment was successful
+        const session = event.data.object;
+        // Redirect the user to the home page
+        res.redirect('/home');
+    }
+
+    res.json({ received: true });
 });
+
 
 
 app.all('*',(req,res, next)=>{

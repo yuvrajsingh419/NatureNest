@@ -1,7 +1,7 @@
 body{
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-    url("https://images.unsplash.com/photo-1644102723209-544dd761b2f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80");
+    background-image: linear-gradient(rgba(80, 79, 79, 0.217), rgba(80, 79, 79, 0.217)),
+    url("https://cdn.vox-cdn.com/thumbor/oVxByLo3H-cYEzgkxQguBUoUOxY=/0x0:1600x1200/1200x675/filters:focal(0x0:1600x1200)/cdn.vox-cdn.com/uploads/chorus_image/image/47679287/1G9A0404-2.0.0.jpg");
      background-size: cover;
     background-position: center; 
     text-shadow: 0 0.05rem 0.01rem rgba(0,0,0,0.5) ;
@@ -10,30 +10,53 @@ body{
 
 .cover-container {
     max-width: 60vw;
-    
 }
 
 .nav-link{
     padding: 0.25rem 0;
     /* font-weight: 700; */
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(13, 13, 13, 0.82);
     margin-left: 1rem;
     border-bottom: 0.25rem solid transparent;
 }
 
 .nav-link:hover{
-    color: rgba(255, 255, 255, 0.5);
-    border-bottom-color:rgba(255, 255, 255, 0.5) ;
+    color: rgba(0, 0, 0, 0.776);
+    border-bottom-color:rgba(0, 0, 0, 0.776) ;
 }
 
 .nav-link.active{
-    color: white;
-    border-bottom-color: white ;
+    color: rgb(23, 23, 23);
+    border-bottom-color: rgb(16, 16, 16) ;
 
 }
 
 
 .btn-secondary, .btn-secondary:hover{
-    color: #333;
+    color: #000;
     text-shadow: none;
 }
+
+.head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:0.5rem;
+}
+
+.head img{
+    width:5rem;
+    height:5rem;
+}
+
+.head h3{
+    color: #000;
+    font-size: 2.5rem;
+}
+
+.px-3{
+    color: #ffffff;
+    font-weight: 700;
+    font-size: large;
+}
+
