@@ -30,7 +30,7 @@ const reviewRoutes = require('./routes/review');
 const review = require('./models/review');
 const { isLoggedIn } = require('./middleware.js');
 
-const stripe = require('stripe')('sk_test_51Njw6nSAF0QiCviy6gSSYtOUYQkAzKXBwlpl60dEcCGJOgvghafRbfC923ryts0T5Y5gu8veEdc8PMSrMuLr3wpd00RM4PYigJ');
+const stripe = require('stripe') ('sk_test_51Njw6nSAF0QiCviy6gSSYtOUYQkAzKXBwlpl60dEcCGJOgvghafRbfC923ryts0T5Y5gu8veEdc8PMSrMuLr3wpd00RM4PYigJ');
 
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
